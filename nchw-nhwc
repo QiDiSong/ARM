@@ -1,0 +1,23 @@
+最开始的四个网络都是nhwc类型的layout
+如今的caffe和onnx都改成了nchw类型
+但是data数据并没有修改
+只是在将data数据喂进去之前，在cfg文件加了一句dataset=nhwc2nchw
+之后在graph中添加了一层transpose再将nchw转为nhwc
+
+在GPU中，使用NCHW计算卷积，要比NHWC计算快2.5倍
+
+
+NHWC：channel last，适用于CPU指令
+
+深度学习框架：
+TensorFlow：TensorBoard计算图可视化，方便调优
+TFLITE:将tensorflow在机器上训练好的模型转化为TFLITE，目的是支持移动端的应用，类似于Android，ios，Raspberry，使移动端人工智能成为现实
+Keras：在框架之上的高级库，句法很简单，几行代码完成一个网络的搭建
+Caffe：用于特征提取的卷积架构，Convolution Archiecture For Feature Extraction 灵活性不足，为模型做调整常常需要C++和CUDA
+PyTorch：非常适用于卷积神经网络，命令式的，支持动态图模型（静态图模型，先定义好ｇｒａｐｈ，再根据graph进行训练）Ｃａｆｆｅ２已经合入ＰｙＴｏｒｃｈ
+MXNet
+Chainer：研究和开发深度学习算法，支持动态图
+CNTK：语音图像识别好，
+
+spt -g IR_int16/deeplab_quant.txt -w IR_int16/deeplab_quant.bin -i input0.bin --mode grad1 --target Z3_1104 --metric cos_sim --code c --test_id 60
+ /project/ai/scratch01/qidson01/debug/onnx_deeplab
